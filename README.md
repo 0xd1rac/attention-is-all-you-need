@@ -1,24 +1,31 @@
-# attention-is-all-you-need
-This repository contains my own implementation of the famous Attention Is All You Need paper (2017)
-# DeepLearningPaper_Implementation_Name
+# Attention_Is_All_You_Need
 
 ## Introduction
-This repository contains the implementation of the paper "Paper Title" by Author(s). The paper introduces a novel approach to...
+This repository contains the implementation of the paper "Attention Is All You Need" by Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, and Illia Polosukhin. The paper was presented at the 31st Annual Conference on Neural Information Processing Systems (NeurIPS 2017).
+
+The paper introduces the Transformer model, a novel architecture for sequence modeling that relies entirely on self-attention mechanisms, eschewing the recurrent and convolutional layers traditionally used in such models. The Transformer model has since become a cornerstone in the field of natural language processing (NLP), powering state-of-the-art models like BERT, GPT, and T5.
+
+Key contributions of the paper include:
+- **Self-Attention Mechanism:** The core idea of the Transformer is the use of self-attention to process input sequences. This mechanism allows the model to weigh the importance of different words in a sequence when encoding a particular word.
+- **Positional Encoding:** Since the model does not use recurrent structures, it incorporates positional encodings to maintain the order of the sequence.
+- **Scalability and Parallelization:** The architecture is highly parallelizable, making it more efficient to train on large datasets compared to recurrent models.
+
+This implementation aims to replicate the results presented in the paper and provide a platform for further experimentation and research.
 
 ## Implementation Details
-- **Frameworks Used:** TensorFlow, PyTorch, etc.
-- **Dataset:** Describe the dataset used.
-- **Model Architecture:** Summarize the architecture.
-- **Training:** Describe the training process, hyperparameters, etc.
+- **Frameworks Used:** PyTorch
+- **Dataset:** WMT 2014 English-to-German translation task
+- **Model Architecture:** The model consists of an encoder and decoder, each made up of multiple layers of self-attention and feedforward neural networks.
+- **Training:** The model is trained using the Adam optimizer with a learning rate schedule that warms up for the first 4000 steps and then decays proportionally to the inverse square root of the step number.
 
 ## Results
 Include visualizations of your results, such as:
 - Training and validation accuracy/loss graphs
-- Example outputs
+- Example translations compared to ground truth
 - Comparison with the original paper results
 
 ## Usage
 To run this code:
 1. Clone the repository
    ```sh
-   git clone https://github.com/yourusername/DeepLearningPaper_Implementation_Name.git
+   git clone https://github.com/yourusername/Attention_Is_All_You_Need.git
