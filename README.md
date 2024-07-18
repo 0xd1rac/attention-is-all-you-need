@@ -1,4 +1,4 @@
-# Attention_Is_All_You_Need
+# Attention Is All You Need
 
 ## Introduction
 This repository contains the implementation of the paper "Attention Is All You Need" by Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, and Illia Polosukhin. The paper was presented at the 31st Annual Conference on Neural Information Processing Systems (NeurIPS 2017).
