@@ -1,21 +1,26 @@
-from .ManagerImports import *
-from .ConfigManager import ConfigManager
+from ManagerImports import *
+from ConfigManager import ConfigManager
+from imports import *
+from BilingualDataset import BilingualDataset
+
 
 class DatasetManager:
     def __init__(self, config):
-        self.config = ConfigManager.get_config()
+        self.config = config 
     
     def get_all_sentences(self, ds, lang):
         for item in ds:
             yield item['translation'][lang]
     
-    def get_tokenizer(self):
+    def get_tokenizer(self, ds, lang):
         tokenizer_path = Path(self.config['tokenizer_file'].format(lang))
+        tokenizer_path.parent.mkdir(parents=True, exist_ok=True)
+        
         if not Path.exists(tokenizer_path):
             tokenizer = Tokenizer(WordLevel(unk_token="[UNK]"))
             tokenizer.pre_tokenizer = Whitespace()
             trainer = WordLevelTrainer(special_tokens=["[UNK]", "[PAD]", "[SOS]", "[EOS]"], min_frequency=2)
-            tokenizer.train_from_iterator(get_all_sentences(ds, lang), trainer=trainer)
+            tokenizer.train_from_iterator(self.get_all_sentences(ds, lang), trainer=trainer)
             tokenizer.save(str(tokenizer_path))
         else:
             tokenizer = Tokenizer.from_file(str(tokenizer_path))
@@ -34,8 +39,8 @@ class DatasetManager:
         # ds_raw = Subset(ds_raw, subset_indices)
 
         # Build tokenizer
-        tokenizer_src = get_tokenizer(self.config, ds_raw, self.config['lang_src'])
-        tokenizer_tgt = get_tokenizer(self.config, ds_raw, self.config['lang_tgt'])
+        tokenizer_src = self.get_tokenizer(ds_raw, self.config['lang_src'])
+        tokenizer_tgt = self.get_tokenizer(ds_raw, self.config['lang_tgt'])
 
         # 90/10 Training/Validation split
         train_ds_size = int(train_pct * len(ds_raw))
