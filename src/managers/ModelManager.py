@@ -1,5 +1,6 @@
 from src.imports.common_imports import *
 import src.transformer_components as transformer_components
+import src.data as data
 
 class ModelManager():
     @staticmethod
@@ -197,7 +198,7 @@ class ModelManager():
                 break
             
             # build mask for decoder - casual mask 
-            decoder_mask = causal_mask(decoder_input.size(1)).type_as(encoder_input).to(device)
+            decoder_mask = data.causal_mask(decoder_input.size(1)).type_as(encoder_input).to(device)
 
             # calculate output
             decoder_output = model.decode(encoder_output,encoder_mask,decoder_input,decoder_mask)

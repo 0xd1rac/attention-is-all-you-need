@@ -1,7 +1,6 @@
-from ModelManager import ModelManager
-from DatasetManager import DatasetManager
-from ConfigManager import ConfigManager
 import torch
+import src.managers as managers
+import src.transformer_components as transformer_components
 
 # config_filepath = "./config.json"
 # config = ConfigManager.get_config(config_filepath)
@@ -20,7 +19,7 @@ LR = 1e-9
 BATCH_SIZE = 8
 
 
-ds_m = DatasetManager(tokenizer_file = TOKENIZER_FILE,
+ds_m = managers.DatasetManager(tokenizer_file = TOKENIZER_FILE,
                       lang_src = LANG_SRC,
                       lang_tgt = LANG_TGT,
                       seq_len = SEQ_LEN,
@@ -29,13 +28,13 @@ ds_m = DatasetManager(tokenizer_file = TOKENIZER_FILE,
 train_dataloader, val_dataloader, tokenizer_src, tokenizer_tgt = ds_m.get_dataset()
 
 
-model = ModelManager.build_transformer(src_vocab_size=tokenizer_src.get_vocab_size(),
+model = managers.ModelManager.build_transformer(src_vocab_size=tokenizer_src.get_vocab_size(),
                                              tgt_vocab_size=tokenizer_tgt.get_vocab_size(),
                                              src_seq_len = SEQ_LEN,
                                              tgt_seq_len = SEQ_LEN
                                              )
 
-model, optimizer, total_epoch_trained = ModelManager.load_model("weights/tmodel_1_1", 
+model, optimizer, total_epoch_trained = managers.ModelManager.load_model("weights/tmodel_1_1", 
                                                                model, 
                                                                torch.optim.Adam(model.parameters()))
 
@@ -43,7 +42,7 @@ print(f"Loaded a model trained for {total_epoch_trained} epochs.")
 
 sen = "Who are you?"
 print(f"Source Sentence: \n{sen}\n")
-print(f"Predicted Sentence: \n{ModelManager.run_inference(model, sen, tokenizer_src, tokenizer_tgt)}")
+print(f"Predicted Sentence: \n{managers.ModelManager.run_inference(model, sen, tokenizer_src, tokenizer_tgt)}")
 
 # ModelManager.run_validation(
 #     model,

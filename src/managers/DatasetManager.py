@@ -1,5 +1,5 @@
 from src.imports.common_imports import *
-import src.data
+import src.data as data
 
 class DatasetManager:
     def __init__(self, 
@@ -54,13 +54,13 @@ class DatasetManager:
         train_ds_raw, val_ds_raw = random_split(ds_raw, [train_ds_size, val_ds_size])
 
         # Create BilingualDataset instances
-        train_ds = BilingualDataset(train_ds_raw,
+        train_ds = data.BilingualDataset(train_ds_raw,
                                     tokenizer_src,
                                     tokenizer_tgt,
                                     self.lang_src,
                                     self.lang_tgt,
                                     self.seq_len)
-        val_ds = BilingualDataset(val_ds_raw,
+        val_ds = data.BilingualDataset(val_ds_raw,
                                   tokenizer_src,
                                   tokenizer_tgt,
                                   self.lang_src,
