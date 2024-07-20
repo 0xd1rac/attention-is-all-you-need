@@ -1,6 +1,6 @@
-from imports import *
-from ProjectionLayer import ProjectionLayer
-from LayerNormalization import LayerNormalization
+from src.imports.common_imports import *
+from .ProjectionLayer import ProjectionLayer
+from .LayerNormalization import LayerNormalization
 
 class ResidualConnection(nn.Module):
     def __init__(self, 

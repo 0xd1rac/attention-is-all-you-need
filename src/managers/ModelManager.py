@@ -1,21 +1,5 @@
-from ManagerImports import * 
-from ConfigManager import ConfigManager
-from DatasetManager import DatasetManager
-from imports import * 
-from MetricManager import MetricManager
-from BilingualDataset import causal_mask
-from Transformer import Transformer
-from InputEmbeddings import InputEmbeddings
-from PositionalEncoding import PositionalEncoding
-from MultiHeadAttentionBlock import MultiHeadAttentionBlock
-from FeedForwardBlock import FeedForwardBlock
-from EncoderBlock import EncoderBlock
-from Encoder import Encoder
-from DecoderBlock import DecoderBlock
-from Decoder import Decoder
-from ProjectionLayer import ProjectionLayer
-# sys.path.append(os.path.abspath(os.path.join('..', 'Transformer')))
-
+from src.imports.common_imports import *
+import src.transformer_components as transformer_components
 
 class ModelManager():
     @staticmethod
@@ -28,7 +12,7 @@ class ModelManager():
                           h: int = 8,  # Number of heads in MHA block
                           dropout_proba: float = 0.1,
                           d_ff: int = 2048  # Number of parameters in the Feed Forward Layer
-                          ) -> Transformer:
+                          ) -> transformer_components.Transformer:
         """
         Build a Transformer model.
 
@@ -47,39 +31,39 @@ class ModelManager():
             Transformer: The constructed Transformer model.
         """
         # Create the embedding layers
-        src_embed = InputEmbeddings(d_model, src_vocab_size)
-        tgt_embed = InputEmbeddings(d_model, tgt_vocab_size)
+        src_embed =  transformer_components.InputEmbeddings(d_model, src_vocab_size)
+        tgt_embed =  transformer_components.InputEmbeddings(d_model, tgt_vocab_size)
 
         # Create the positional encoding layers
-        src_pos = PositionalEncoding(d_model, src_seq_len, dropout_proba)
-        tgt_pos = PositionalEncoding(d_model, tgt_seq_len, dropout_proba)
+        src_pos =  transformer_components.PositionalEncoding(d_model, src_seq_len, dropout_proba)
+        tgt_pos =  transformer_components.PositionalEncoding(d_model, tgt_seq_len, dropout_proba)
 
         # Create the encoder blocks
         encoder_blocks = []
         for _ in range(N):
-            self_attention_block = MultiHeadAttentionBlock(d_model, h, dropout_proba)
-            feed_forward_block = FeedForwardBlock(d_model, d_ff, dropout_proba)
-            encoder_block = EncoderBlock(self_attention_block, feed_forward_block, dropout_proba)
+            self_attention_block = transformer_components.MultiHeadAttentionBlock(d_model, h, dropout_proba)
+            feed_forward_block = transformer_components.FeedForwardBlock(d_model, d_ff, dropout_proba)
+            encoder_block = transformer_components.EncoderBlock(self_attention_block, feed_forward_block, dropout_proba)
             encoder_blocks.append(encoder_block)
 
         # Create the decoder blocks
         decoder_blocks = []
         for _ in range(N):
-            self_attention_block = MultiHeadAttentionBlock(d_model, h, dropout_proba)
-            cross_attention_block = MultiHeadAttentionBlock(d_model, h, dropout_proba)
-            feed_forward_block = FeedForwardBlock(d_model, d_ff, dropout_proba)
-            decoder_block = DecoderBlock(self_attention_block, cross_attention_block, feed_forward_block, dropout_proba)
+            self_attention_block = transformer_components.MultiHeadAttentionBlock(d_model, h, dropout_proba)
+            cross_attention_block = transformer_components.MultiHeadAttentionBlock(d_model, h, dropout_proba)
+            feed_forward_block = transformer_components.FeedForwardBlock(d_model, d_ff, dropout_proba)
+            decoder_block = transformer_components.DecoderBlock(self_attention_block, cross_attention_block, feed_forward_block, dropout_proba)
             decoder_blocks.append(decoder_block)
 
         # Create encoder and decoder
-        encoder = Encoder(nn.ModuleList(encoder_blocks))
-        decoder = Decoder(nn.ModuleList(decoder_blocks))
+        encoder =  transformer_components.Encoder(nn.ModuleList(encoder_blocks))
+        decoder =  transformer_components.Decoder(nn.ModuleList(decoder_blocks))
 
         # Create the projection layer
-        projection_layer = ProjectionLayer(d_model, tgt_vocab_size)
+        projection_layer =  transformer_components.ProjectionLayer(d_model, tgt_vocab_size)
 
         # Create the transformer
-        transformer = Transformer(encoder=encoder,
+        transformer =  transformer_components.Transformer(encoder=encoder,
                                   decoder=decoder,
                                   src_embed=src_embed,
                                   tgt_embed=tgt_embed,

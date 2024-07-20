@@ -1,9 +1,9 @@
-from imports import *
-from Encoder import Encoder
-from Decoder import Decoder
-from InputEmbeddings import InputEmbeddings
-from PositionalEncoding import PositionalEncoding
-from ProjectionLayer import ProjectionLayer
+from src.imports.common_imports import *
+from .Encoder import Encoder
+from .Decoder import Decoder
+from .InputEmbeddings import InputEmbeddings
+from .PositionalEncoding import PositionalEncoding
+from .ProjectionLayer import ProjectionLayer
 
 class Transformer(nn.Module):
     def __init__(self, 

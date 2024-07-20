@@ -1,4 +1,4 @@
-from imports import *
+from src.imports.common_imports import *
 
 class InputEmbeddings(nn.Module):
     """

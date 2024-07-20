@@ -1,4 +1,4 @@
-from imports import *
+from src.imports.common_imports import *
 
 class MultiHeadAttentionBlock(nn.Module):
     def __init__(self, 

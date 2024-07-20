@@ -1,8 +1,5 @@
-from ManagerImports import *
-from ConfigManager import ConfigManager
-from imports import *
-from BilingualDataset import BilingualDataset
-
+from src.imports.common_imports import *
+import src.data
 
 class DatasetManager:
     def __init__(self, 
@@ -36,7 +33,6 @@ class DatasetManager:
             tokenizer = Tokenizer.from_file(str(tokenizer_path))
 
         return tokenizer
-
 
     def get_dataset(self, train_pct=0.9):
         lang_config = f"{self.lang_src}-{self.lang_tgt}"

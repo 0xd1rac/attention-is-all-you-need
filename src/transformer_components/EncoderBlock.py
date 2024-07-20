@@ -1,7 +1,8 @@
-from imports import *
-from MultiHeadAttentionBlock import MultiHeadAttentionBlock
-from FeedForwardBlock import FeedForwardBlock
-from ResidualConnection import ResidualConnection
+from src.imports.common_imports import *
+from .MultiHeadAttentionBlock import MultiHeadAttentionBlock
+from .FeedForwardBlock import FeedForwardBlock
+from .ResidualConnection import ResidualConnection
+
 
 class EncoderBlock(nn.Module):
     def __init__(self,

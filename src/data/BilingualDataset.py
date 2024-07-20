@@ -1,5 +1,4 @@
-from imports import *
-
+from src.imports.common_imports import *
 """
 The BilingualDataset class prepares bilingual translation data for use with transformer models. 
 It handles tokenization, sequence padding, and mask generation. 

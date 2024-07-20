@@ -1,6 +1,5 @@
-from imports import *
-from LayerNormalization import LayerNormalization
-
+from src.imports.common_imports import *
+from .LayerNormalization import LayerNormalization
 
 class Decoder(nn.Module):
     def __init__(self,

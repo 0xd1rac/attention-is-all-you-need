@@ -1,4 +1,4 @@
-from imports import *
+from src.imports.common_imports import *
 from torchmetrics.text import CharErrorRate, WordErrorRate, BLEUScore
 
 class MetricManager:

@@ -1,8 +1,8 @@
-from imports import *
-from MultiHeadAttentionBlock import MultiHeadAttentionBlock
-from FeedForwardBlock import FeedForwardBlock
-from ResidualConnection import ResidualConnection
-from LayerNormalization import LayerNormalization
+from src.imports.common_imports import *
+from .MultiHeadAttentionBlock import MultiHeadAttentionBlock
+from .FeedForwardBlock import FeedForwardBlock
+from .ResidualConnection import ResidualConnection
+from .LayerNormalization import LayerNormalization
 
 class DecoderBlock(nn.Module):
     def __init__(self,
