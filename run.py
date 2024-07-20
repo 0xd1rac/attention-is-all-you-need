@@ -1,5 +1,4 @@
 from ModelManager import ModelManager
-from TransformerBuilder import TransformerBuilder
 from DatasetManager import DatasetManager
 from ConfigManager import ConfigManager
 import torch
@@ -30,7 +29,7 @@ ds_m = DatasetManager(tokenizer_file = TOKENIZER_FILE,
 train_dataloader, val_dataloader, tokenizer_src, tokenizer_tgt = ds_m.get_dataset()
 
 
-model = TransformerBuilder.build_transformer(src_vocab_size=tokenizer_src.get_vocab_size(),
+model = ModelManager.build_transformer(src_vocab_size=tokenizer_src.get_vocab_size(),
                                              tgt_vocab_size=tokenizer_tgt.get_vocab_size(),
                                              src_seq_len = SEQ_LEN,
                                              tgt_seq_len = SEQ_LEN
