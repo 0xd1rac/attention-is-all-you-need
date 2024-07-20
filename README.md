@@ -16,16 +16,10 @@ This implementation aims to replicate the results presented in the paper and pro
 - **Frameworks Used:** PyTorch
 - **Dataset:** WMT 2014 English-to-German translation task
 - **Model Architecture:** The model consists of an encoder and decoder, each made up of multiple layers of self-attention and feedforward neural networks.
-- **Training:** The model is trained using the Adam optimizer with a learning rate schedule that warms up for the first 4000 steps and then decays proportionally to the inverse square root of the step number.
 
-## Results
-Include visualizations of your results, such as:
-- Training and validation accuracy/loss graphs
-- Example translations compared to ground truth
-- Comparison with the original paper results
 
 ## Usage
 To run this code:
 1. Clone the repository
    ```sh
-   git clone https://github.com/yourusername/Attention_Is_All_You_Need.git
+   git clone https://github.com/0xd1rac/attention-is-all-you-need.git
