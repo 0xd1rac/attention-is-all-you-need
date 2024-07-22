@@ -8,8 +8,8 @@ It handles tokenization, sequence padding, and mask generation.
 class BilingualDataset(Dataset):
     def __init__(self, 
                  ds, 
-                 tokenizer_src, 
-                 tokenizer_tgt, 
+                 src_lang_tokenizer, 
+                 tgt_lang_tokenizer, 
                  src_lang: str, 
                  tgt_lang: str, 
                  seq_len: int
@@ -19,8 +19,8 @@ class BilingualDataset(Dataset):
 
         Args:
             ds (Dataset): The original dataset containing source and target translations.
-            tokenizer_src: Tokenizer for the source language.
-            tokenizer_tgt: Tokenizer for the target language.
+            src_lang_tokenizer: Tokenizer for the source language.
+            tgt_lang_tokenizer: Tokenizer for the target language.
             src_lang (str): Source language identifier.
             tgt_lang (str): Target language identifier.
             seq_len (int): Maximum sequence length for input and output sequences.
@@ -29,15 +29,15 @@ class BilingualDataset(Dataset):
         self.seq_len = seq_len  # Store the maximum sequence length
 
         self.ds = ds  # Store the original dataset
-        self.tokenizer_src = tokenizer_src  # Store the source language tokenizer
-        self.tokenizer_tgt = tokenizer_tgt  # Store the target language tokenizer
+        self.src_lang_tokenizer = src_lang_tokenizer  # Store the source language tokenizer
+        self.tgt_lang_tokenizer = tgt_lang_tokenizer  # Store the target language tokenizer
         self.src_lang = src_lang  # Store the source language identifier
         self.tgt_lang = tgt_lang  # Store the target language identifier
 
         # Retrieve and store special tokens for the target language
-        self.sos_token = torch.tensor([tokenizer_tgt.token_to_id("[SOS]")], dtype=torch.int64)  # Start-of-sequence token
-        self.eos_token = torch.tensor([tokenizer_tgt.token_to_id("[EOS]")], dtype=torch.int64)  # End-of-sequence token
-        self.pad_token = torch.tensor([tokenizer_tgt.token_to_id("[PAD]")], dtype=torch.int64)  # Padding token
+        self.sos_token = torch.tensor([tgt_lang_tokenizer.token_to_id("[SOS]")], dtype=torch.int64)  # Start-of-sequence token
+        self.eos_token = torch.tensor([tgt_lang_tokenizer.token_to_id("[EOS]")], dtype=torch.int64)  # End-of-sequence token
+        self.pad_token = torch.tensor([tgt_lang_tokenizer.token_to_id("[PAD]")], dtype=torch.int64)  # Padding token
 
     def __len__(self) -> int:
         """
@@ -93,8 +93,8 @@ class BilingualDataset(Dataset):
         tgt_text = src_target_pair['translation'][self.tgt_lang]  # Extract target text
 
         # Transform the text into tokens using the respective tokenizers
-        enc_input_tokens = self.tokenizer_src.encode(src_text).ids
-        dec_input_tokens = self.tokenizer_tgt.encode(tgt_text).ids
+        enc_input_tokens = self.src_lang_tokenizer.encode(src_text).ids
+        dec_input_tokens = self.tgt_lang_tokenizer.encode(tgt_text).ids
 
         # Calculate the number of padding tokens needed for both encoder and decoder inputs
         enc_num_padding_tokens = self.seq_len - len(enc_input_tokens) - 2  # For encoder: account for <s> and </s>

@@ -2,6 +2,11 @@ import torch
 import src.managers as managers
 import src.transformer_components as transformer_components
 
+# if __name__ == "__main__":
+#     config_file_path = "./config.json"
+#     config = managers.ConfigManager.get_config(config_file_path)
+#     print(config)
+
 # config_filepath = "./config.json"
 # config = ConfigManager.get_config(config_filepath)
 
@@ -25,37 +30,21 @@ ds_m = managers.DatasetManager(tokenizer_file = TOKENIZER_FILE,
                       seq_len = SEQ_LEN,
                       batch_size = BATCH_SIZE
                       )
-train_dataloader, val_dataloader, tokenizer_src, tokenizer_tgt = ds_m.get_dataset()
+train_dataloader, val_dataloader, src_lang_tokenizer, tgt_lang_tokenizer = ds_m.get_dataset()
 
 
-model = managers.ModelManager.build_transformer(src_vocab_size=tokenizer_src.get_vocab_size(),
-                                             tgt_vocab_size=tokenizer_tgt.get_vocab_size(),
+model = managers.ModelManager.build_transformer(src_vocab_size=src_lang_tokenizer.get_vocab_size(),
+                                             tgt_vocab_size=tgt_lang_tokenizer.get_vocab_size(),
                                              src_seq_len = SEQ_LEN,
                                              tgt_seq_len = SEQ_LEN
                                              )
 
-model, optimizer, total_epoch_trained = managers.ModelManager.load_model("weights/tmodel_1_1", 
-                                                               model, 
-                                                               torch.optim.Adam(model.parameters()))
-
-print(f"Loaded a model trained for {total_epoch_trained} epochs.")
-
-sen = "Who are you?"
-print(f"Source Sentence: \n{sen}\n")
-print(f"Predicted Sentence: \n{managers.ModelManager.run_inference(model, sen, tokenizer_src, tokenizer_tgt)}")
-
-# ModelManager.run_validation(
-#     model,
-#     val_dataloader,
-#     tokenizer_src,
-#     tokenizer_tgt
-# )
-# ModelManager.train(model=model,
-#                    train_dataloader=train_dataloader,
-#                    val_dataloader=val_dataloader,
-#                    src_lang_tokenizer=tokenizer_src,
-#                    tgt_lang_tokenizer=tokenizer_tgt,
-#                    lr=LR,
-#                    model_base_path = MODEL_BASE_PATH,
-#                    num_epochs=NUM_EPOCHS
-#                    )
+managers.ModelManager.train(
+    model,
+    train_dataloader,
+    val_dataloader,
+    src_lang_tokenizer,
+    tgt_lang_tokenizer, 
+    lr=LR,
+    model_base_path=MODEL_BASE_PATH,
+)

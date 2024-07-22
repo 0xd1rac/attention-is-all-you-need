@@ -17,8 +17,11 @@ from pathlib import Path
 
 from datasets import load_dataset
 from tokenizers import Tokenizer
-from tokenizers.models import WordLevel
-from tokenizers.trainers import WordLevelTrainer
+
+from tokenizers.models import BPE
+from tokenizers.trainers import BpeTrainer
+
+
 from tokenizers.pre_tokenizers import Whitespace
 from torch.utils.data import Dataset, Subset
 from pathlib import Path

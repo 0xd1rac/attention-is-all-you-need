@@ -6,7 +6,7 @@
     "d_model": 512,
     "lang_src": "en",
     "lang_tgt": "it",
-    "model_folder": "../weights",
+    "model_folder": "weights",
     "model_basename": "tmodel_",
     "preload": null,
     "tokenizer_file": "../tokenizers/tokenizer_{0}.json",
